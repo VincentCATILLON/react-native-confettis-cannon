@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { Animated, Platform } from 'react-native';
+import { Animated, I18nManager, Platform } from 'react-native';
 import renderer from 'react-test-renderer';
 
 import ConfettiCannon, {DEFAULT_EXPLOSION_SPEED, DEFAULT_FALL_SPEED} from '..';
@@ -253,11 +253,25 @@ describe('index', () => {
     const component = renderer.create(
       <ConfettiCannon count={count} origin={origin} />
     );
-    
+
     const confettiAnimatedView = component.root
         .find(el => el.props.testID === 'confetti-1')
         .findByType(Animated.View);
 
     expect(confettiAnimatedView.props.renderToHardwareTextureAndroid).toEqual(true);
+  });
+
+  it('should handle RTL horizontal positioning', () => {
+    I18nManager.isRTL = true;
+
+    const origin = {x: -10, y: 0};
+    const count = 1000;
+
+    const component = renderer.create(
+      <ConfettiCannon count={count} origin={origin} />
+    );
+    const confetti = component.root.find(el => el.props.testID === 'confetti-1');
+
+    expect(confetti.props.containerTransform[0].translateX._config.outputRange[0]).toEqual(10);
   });
 });

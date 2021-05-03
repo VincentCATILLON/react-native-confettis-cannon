@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { Animated, Dimensions, Easing, Platform } from 'react-native';
+import { Animated, Dimensions, Easing, I18nManager, Platform } from 'react-native';
 import type { CompositeAnimation } from 'react-native/Libraries/Animated/src/AnimatedImplementation';
 import type { EndResult } from 'react-native/Libraries/Animated/src/animations/Animation';
 
@@ -181,13 +181,18 @@ class Explosion extends React.PureComponent<Props, State> {
     const { origin, fadeOut } = this.props;
     const { items } = this.state;
     const { height, width } = Dimensions.get('window');
+    const directionalityFactor = I18nManager.isRTL ? -1 : 1;
 
     return (
       <React.Fragment>
         {items.map((item: Item, index: number) => {
           const left = this.animation.interpolate({
             inputRange: [0, 1, 2],
-            outputRange: [origin.x, item.leftDelta * width, item.leftDelta * width]
+            outputRange: [
+              directionalityFactor * origin.x,
+              directionalityFactor * item.leftDelta * width,
+              directionalityFactor * item.leftDelta * width
+            ]
           });
           const top = this.animation.interpolate({
             inputRange: [0, 1, 1 + item.topDelta, 2],
