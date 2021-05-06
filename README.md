@@ -37,6 +37,7 @@ const MyComponent = () => (
 | count            | number                 | items count to display                     | required |                |
 | origin           | {x: number, y: number} | animation position origin                  | required |                |
 | explosionSpeed   | number                 | explosion duration (ms) from origin to top |          | 350            |
+| size             | number                 | maximum size range of the confettis        |          | 26             |
 | fallSpeed        | number                 | fall duration (ms) from top to bottom      |          | 3000           |
 | fadeOut          | boolean                | make the confettis disappear at the end    |          | false          |
 | colors           | string[]               | give your own colors to the confettis      |          | default colors |

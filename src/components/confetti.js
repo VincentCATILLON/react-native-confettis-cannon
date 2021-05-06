@@ -18,20 +18,21 @@ type Props = {|
   containerTransform: Interpolations,
   transform: Interpolations,
   color: string,
+  size: number,
   opacity: Animated.Interpolation,
   testID?: string
 |};
 
 class Confetti extends React.PureComponent<Props> {
   props: Props;
-  width: number = randomValue(8, 16);
-  height: number = randomValue(6, 12);
   isRounded: boolean = Math.round(randomValue(0, 1)) === 1;
 
   render() {
-    const { containerTransform, transform, opacity, color } = this.props;
-    const { width, height, isRounded } = this;
+    const { containerTransform, transform, opacity, color, size } = this.props;
+    const { isRounded } = this;
     const containerStyle = { transform: containerTransform };
+    const height = randomValue(size * 0.5, size);
+    const width = randomValue(size * 0.4, size * 0.75);
     const style = { width, height, backgroundColor: color, transform, opacity};
 
     return (

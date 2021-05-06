@@ -15,6 +15,7 @@ type Props = {|
     y: number
   },
   explosionSpeed?: number,
+  size?: number,
   fallSpeed?: number,
   colors?: Array<string>,
   fadeOut?: boolean,
@@ -59,6 +60,7 @@ export const DEFAULT_COLORS: Array<string> =[
 ];
 export const DEFAULT_EXPLOSION_SPEED = 350;
 export const DEFAULT_FALL_SPEED = 3000;
+export const DEFAULT_SIZE = 26;
 
 class Explosion extends React.PureComponent<Props, State> {
   props: Props;
@@ -178,7 +180,7 @@ class Explosion extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { origin, fadeOut } = this.props;
+    const { origin, fadeOut, size = DEFAULT_SIZE } = this.props;
     const { items } = this.state;
     const { height, width } = Dimensions.get('window');
 
@@ -226,6 +228,7 @@ class Explosion extends React.PureComponent<Props, State> {
               containerTransform={containerTransform}
               transform={transform}
               opacity={opacity}
+              size={size}
               key={index}
               testID={`confetti-${index + 1}`}
             />

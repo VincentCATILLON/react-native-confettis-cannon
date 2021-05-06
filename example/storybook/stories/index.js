@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 import { storiesOf } from '@storybook/react-native';
 import { withKnobs, boolean, number, array, button } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-import ConfettiCannon, {DEFAULT_COLORS, DEFAULT_EXPLOSION_SPEED, DEFAULT_FALL_SPEED} from 'react-native-confetti-cannon';
+import ConfettiCannon, {DEFAULT_COLORS, DEFAULT_EXPLOSION_SPEED, DEFAULT_SIZE, DEFAULT_FALL_SPEED} from 'react-native-confetti-cannon';
 
 import ScreenSimulator from './components/screen-simulator';
 
@@ -23,6 +23,7 @@ storiesOf('Demo', module)
           y: number('origin.y', -10, {}, 'Props')
         }}
         explosionSpeed={number('explosionSpeed', DEFAULT_EXPLOSION_SPEED, {}, 'Props')}
+        size={number('size', DEFAULT_SIZE, {}, 'Props')}
         fallSpeed={number('fallSpeed', DEFAULT_FALL_SPEED, {}, 'Props')}
         fadeOut={boolean('fadeOut', false, 'Props')}
         colors={array('colors', DEFAULT_COLORS, ',', 'Props')}
@@ -55,6 +56,7 @@ storiesOf('Demo', module)
             y: number('origin.y', -10, {}, 'Props (left)')
           }}
           explosionSpeed={number('explosionSpeed', DEFAULT_EXPLOSION_SPEED, {}, 'Props (left)')}
+          size={number('size', DEFAULT_SIZE, {}, 'Props')}
           fallSpeed={number('fallSpeed', DEFAULT_FALL_SPEED, {}, 'Props (left)')}
           fadeOut={boolean('fadeOut', false, 'Props (left)')}
           colors={array('colors', DEFAULT_COLORS, ',', 'Props (left)')}
@@ -76,6 +78,7 @@ storiesOf('Demo', module)
             y: number('origin.y', -10, {}, 'Props (right)')
           }}
           explosionSpeed={number('explosionSpeed', DEFAULT_EXPLOSION_SPEED, {}, 'Props (right)')}
+          size={number('size', DEFAULT_SIZE, {}, 'Props')}
           fallSpeed={number('fallSpeed', DEFAULT_FALL_SPEED, {}, 'Props (right)')}
           fadeOut={boolean('fadeOut', false, 'Props (right)')}
           colors={array('colors', DEFAULT_COLORS, ',', 'Props (right)')}

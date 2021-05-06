@@ -7,6 +7,7 @@ export interface ExplosionProps {
     y: number
   };
   explosionSpeed?: number;
+  size?: number;
   fallSpeed?: number;
   colors?: string[];
   fadeOut?: boolean;
@@ -39,6 +40,7 @@ export declare const TOP_MIN: number;
 export declare const DEFAULT_COLORS: string[];
 export declare const DEFAULT_EXPLOSION_SPEED: number;
 export declare const DEFAULT_FALL_SPEED: number;
+export declare const DEFAULT_SIZE: number;
 
 declare class Explosion extends React.PureComponent<ExplosionProps, ExplosionState> {
   start: (resume?: boolean) => void;
