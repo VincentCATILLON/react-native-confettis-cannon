@@ -40,7 +40,8 @@ type Item = {|
 |};
 
 type State = {|
-  items: Array<Item>
+  items: Array<Item>,
+  showItems : boolean
 |};
 
 export const TOP_MIN = 0.7;
@@ -63,7 +64,8 @@ export const DEFAULT_FALL_SPEED = 3000;
 class Explosion extends React.PureComponent<Props, State> {
   props: Props;
   state: State = {
-    items: []
+    items: [],
+    showItems : false
   };
   start: () => void;
   resume: () => void;
@@ -88,7 +90,13 @@ class Explosion extends React.PureComponent<Props, State> {
     const { autoStart = true, autoStartDelay = 0 } = this.props;
 
     if (autoStart) {
-      setTimeout(this.start, autoStartDelay);
+      // Set Timeout with zero delay is not instantenous. Waits for a cycle
+      if(autoStartDelay){
+        setTimeout(this.start, autoStartDelay);
+      }
+      else{
+        this.start();
+      }
     }
   };
 
@@ -130,14 +138,17 @@ class Explosion extends React.PureComponent<Props, State> {
   };
 
   start = (resume?: boolean = false) => {
-    const {
-      explosionSpeed = DEFAULT_EXPLOSION_SPEED,
-      fallSpeed = DEFAULT_FALL_SPEED,
+    this.setState({
+      showItems:true,
+    }, ()=>{
+      const {
+        explosionSpeed = DEFAULT_EXPLOSION_SPEED,
+        fallSpeed = DEFAULT_FALL_SPEED,
       onAnimationStart,
       onAnimationResume,
       onAnimationEnd
     } = this.props;
-
+    
     if (resume) {
       onAnimationResume && onAnimationResume();
     } else {
@@ -155,16 +166,19 @@ class Explosion extends React.PureComponent<Props, State> {
           easing: Easing.quad,
           useNativeDriver: true
         }),
-      ]);
-
+      ]);  
       onAnimationStart && onAnimationStart();
-    }
-
+    } 
+    
     this.sequence && this.sequence.start(({finished}: EndResult) => {
       if (finished) {
         onAnimationEnd && onAnimationEnd();
+        this.setState({
+          showItems:false
+        })
       }
     });
+  })
   };
 
   resume = () => this.start(true);
@@ -181,7 +195,9 @@ class Explosion extends React.PureComponent<Props, State> {
     const { origin, fadeOut } = this.props;
     const { items } = this.state;
     const { height, width } = Dimensions.get('window');
-
+    if(!this.state.showItems){
+      return null;
+    }
     return (
       <React.Fragment>
         {items.map((item: Item, index: number) => {

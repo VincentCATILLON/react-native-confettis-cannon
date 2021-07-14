@@ -260,4 +260,45 @@ describe('index', () => {
 
     expect(confettiAnimatedView.props.renderToHardwareTextureAndroid).toEqual(true);
   });
+
+  it('should not render children if autoStart is disabled', () => {
+    const origin = {x: -10, y: 0};
+    const count = 10;
+
+    const component = renderer.create(
+      <ConfettiCannon count={count} origin={origin} autoStart={false} />
+    );
+    expect(component.toJSON()).toBeNull();
+  });
+
+  it('should render children when started programatically and unmount after animation', ()=>{
+    const ref = jest.fn<[ConfettiCannon | null], void>();
+    const count = 10
+    const component = renderer.create(
+      <ConfettiCannon
+        count={count}
+        origin={{x: -10, y: 0}}
+        autoStart={false}
+        ref={ref}
+      />
+    );
+
+    const [confettiCannon] = ref.mock.calls[0];
+
+    confettiCannon && confettiCannon.start();
+    const items = component.root.findAll(el => el.props.testID && el.props.testID.match(/confetti/g));
+    expect(items.length).toEqual(count);
+    
+    confettiCannon && confettiCannon.stop();
+    
+    const itemsAfterStrop = component.root.findAll(el => el.props.testID && el.props.testID.match(/confetti/g));
+    expect(itemsAfterStrop.length).toEqual(count);
+
+    confettiCannon && confettiCannon.resume();
+    
+    jest.advanceTimersByTime(DEFAULT_EXPLOSION_SPEED + DEFAULT_FALL_SPEED);
+    
+    expect(component.toJSON()).toBeNull();
+  })
+
 });
